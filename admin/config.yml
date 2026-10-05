@@ -1,0 +1,33 @@
+backend:
+  name: github
+  repo: YOUR-GITHUB-USERNAME/YOUR-REPO-NAME
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "site"
+    label: "سائٹ"
+    files:
+      - name: "content"
+        label: "سائٹ کا مواد"
+        file: "content.json"
+        fields:
+          - label: "بنیادی معلومات"
+            name: "site"
+            widget: "object"
+            fields:
+              - { label: "عنوان", name: "title", widget: "string" }
+              - { label: "ذیلی سطر", name: "tagline", widget: "string" }
+              - { label: "اوپر کی تصویر", name: "hero_image", widget: "image" }
+              - { label: "تعارف", name: "about", widget: "text" }
+              - { label: "واٹس ایپ نمبر (بغیر +)", name: "whatsapp", widget: "string" }
+          - label: "مینو"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "نام", name: "name", widget: "string" }
+              - { label: "قیمت", name: "price", widget: "number", value_type: "int", min: 1 }
+              - { label: "تفصیل", name: "desc", widget: "string" }

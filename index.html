@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>چائے خانہ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1f3d36;--paper:#fbf7ee;--gold:#f2b632}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Nastaliq Urdu",serif;background:var(--paper);color:var(--ink);line-height:2.1}
+header{background:var(--ink);color:var(--paper);text-align:center;padding:1.5rem 1rem 0}
+h1{margin:0;font-size:2.4rem;color:var(--gold)}
+header p{margin:.2rem 0 1rem}
+#hero{display:block;width:100%;max-width:900px;margin:0 auto;height:auto}
+main{max-width:720px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.item{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #d9cfb8;padding:.6rem 0}
+.item b{font-size:1.2rem}
+.price{color:#8a5a00;white-space:nowrap}
+a.btn{display:inline-block;margin-top:1.5rem;background:var(--ink);color:var(--paper);padding:.2rem 1.4rem;border-radius:6px;text-decoration:none}
+a.btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title"></h1>
+  <p id="tagline"></p>
+  <img id="hero" alt="">
+</header>
+<main>
+  <p id="about"></p>
+  <section id="items" aria-label="مینو"></section>
+  <a id="wa" class="btn" href="#">واٹس ایپ پر آرڈر کریں</a>
+</main>
+<script>
+fetch("/content.json", {cache: "no-store"})
+  .then(r => r.json())
+  .then(d => {
+    const s = d.site;
+    document.getElementById("title").textContent = s.title;
+    document.title = s.title;
+    document.getElementById("tagline").textContent = s.tagline;
+    document.getElementById("hero").src = s.hero_image;
+    document.getElementById("about").textContent = s.about;
+    document.getElementById("wa").href = "https://wa.me/" + s.whatsapp;
+    const box = document.getElementById("items");
+    d.items.forEach(i => {
+      const row = document.createElement("div");
+      row.className = "item";
+      const left = document.createElement("div");
+      const name = document.createElement("b");
+      name.textContent = i.name;
+      const desc = document.createElement("div");
+      desc.textContent = i.desc;
+      left.append(name, desc);
+      const price = document.createElement("span");
+      price.className = "price";
+      price.textContent = "Rs. " + i.price;
+      row.append(left, price);
+      box.append(row);
+    });
+  })
+  .catch(() => {
+    document.getElementById("about").textContent = "مواد لوڈ نہیں ہو سکا۔";
+  });
+</script>
+</body>
+</html>
